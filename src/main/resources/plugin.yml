@@ -1,0 +1,8 @@
+main: top.plutomc.announcer.AnnouncerPlugin
+name: announcer
+version: 1.0.0
+api-version: 1.19.2
+author: GerryYuu
+commands:
+  announcer:
+    permission: announcer.cmd
