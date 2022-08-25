@@ -16,43 +16,53 @@ public final class ConfigManager {
 
     public void load() {
         AnnouncerPlugin.instance().reloadConfig();
-        Bukkit.getServer().getScheduler().cancelTasks(AnnouncerPlugin.instance());
+        if (!announcers.isEmpty()) {
+            announcers.forEach(announcer -> Bukkit.getScheduler().cancelTask(announcer.getTask().getTaskId()));
+            announcers.clear();
+        }
         for (String key : AnnouncerPlugin.instance().getConfig().getConfigurationSection("announcers").getKeys(false)) {
             int cycle = AnnouncerPlugin.instance().getConfig().getInt("announcers." + key + ".cycle");
             Announcer announcer = new Announcer(cycle);
-            for (String key1 : AnnouncerPlugin.instance().getConfig().getConfigurationSection("announcers." + key + ".messageGroup").getKeys(false)) {
+            for (String key1 : AnnouncerPlugin.instance().getConfig().getConfigurationSection("announcers." + key + ".messageGroups").getKeys(false)) {
                 Group group = new Group();
-                String perm = AnnouncerPlugin.instance().getConfig().getString("announcers." + key + ".messageGroup." + key1 + ".perm");
-                if (perm != "*") {
+                String perm = AnnouncerPlugin.instance().getConfig().getString("announcers." + key + ".messageGroups." + key1 + ".perm");
+                if (!perm.equals("*")) {
                     group.setPerm(perm);
                 }
-                if (AnnouncerPlugin.instance().getConfig().contains("announcers." + key + ".messageGroup." + key1 + ".actions.title")) {
-                    long fadeIn = -1L;
-                    long stay = -1L;
-                    long fadeOut = -1L;
+                if (AnnouncerPlugin.instance().getConfig().contains("announcers." + key + ".messageGroups." + key1 + ".actions.title")) {
+                    System.out.println(1);
+                    long fadeIn;
+                    long stay;
+                    long fadeOut;
 
-                    if (!AnnouncerPlugin.instance().getConfig().contains("announcers." + key + ".messageGroup." + key1 + ".actions.title.fadeIn")) {
-                        fadeIn = 500L;
+                    if (!AnnouncerPlugin.instance().getConfig().contains("announcers." + key + ".messageGroups." + key1 + ".actions.title.fadeIn")) {
+                        fadeIn = 10L;
+                    }else {
+                        fadeIn = AnnouncerPlugin.instance().getConfig().getLong("announcers." + key + ".messageGroups." + key1 + ".actions.title.fadeIn");
                     }
-                    if (!AnnouncerPlugin.instance().getConfig().contains("announcers." + key + ".messageGroup." + key1 + ".actions.title.stay")) {
-                        stay = 3500L;
+                    if (!AnnouncerPlugin.instance().getConfig().contains("announcers." + key + ".messageGroups." + key1 + ".actions.title.stay")) {
+                        stay = 70L;
+                    }else {
+                        stay = AnnouncerPlugin.instance().getConfig().getLong("announcers." + key + ".messageGroups." + key1 + ".actions.title.stay");
                     }
-                    if (!AnnouncerPlugin.instance().getConfig().contains("announcers." + key + ".messageGroup." + key1 + ".actions.title.fadeOut")) {
-                        fadeOut = 1000L;
+                    if (!AnnouncerPlugin.instance().getConfig().contains("announcers." + key + ".messageGroups." + key1 + ".actions.title.fadeOut")) {
+                        fadeOut = 20L;
+                    }else {
+                        fadeOut = AnnouncerPlugin.instance().getConfig().getLong("announcers." + key + ".messageGroups." + key1 + ".actions.title.fadeOut");
                     }
 
                     TitleAction titleAction = new TitleAction(
-                            AnnouncerPlugin.instance().getConfig().getString("announcers." + key + ".messageGroup." + key1 + ".actions.title.main"),
-                            AnnouncerPlugin.instance().getConfig().getString("announcers." + key + ".messageGroup." + key1 + ".actions.title.sub"),
+                            AnnouncerPlugin.instance().getConfig().getString("announcers." + key + ".messageGroups." + key1 + ".actions.title.main"),
+                            AnnouncerPlugin.instance().getConfig().getString("announcers." + key + ".messageGroups." + key1 + ".actions.title.sub"),
                             fadeIn,
                             stay,
                             fadeOut
                     );
                     group.getActions().add(titleAction);
                 }
-                if (AnnouncerPlugin.instance().getConfig().contains("announcers." + key + ".messageGroup." + key1 + ".actions.message.content")) {
+                if (AnnouncerPlugin.instance().getConfig().contains("announcers." + key + ".messageGroups." + key1 + ".actions.message.content")) {
                     MessageAction messageAction = new MessageAction(
-                            AnnouncerPlugin.instance().getConfig().getStringList("announcers." + key + ".messageGroup." + key1 + ".actions.message.content")
+                            AnnouncerPlugin.instance().getConfig().getStringList("announcers." + key + ".messageGroups." + key1 + ".actions.message.content")
                     );
                     group.getActions().add(messageAction);
                 }

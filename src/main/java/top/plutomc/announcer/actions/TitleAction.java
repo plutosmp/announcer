@@ -26,9 +26,9 @@ public final class TitleAction implements Action {
     public TitleAction(String main, String sub) {
         this.main = main;
         this.sub = sub;
-        this.fadeIn = 500L;
-        this.stay = 3500L;
-        this.fadeOut = 1000L;
+        this.fadeIn = 10L;
+        this.stay = 70L;
+        this.fadeOut = 20L;
     }
 
     @Override
@@ -40,9 +40,9 @@ public final class TitleAction implements Action {
                 sub
         ));
         player.sendTitlePart(TitlePart.TIMES, Title.Times.times(
-                Duration.ofMillis(fadeIn),
-                Duration.ofMillis(stay),
-                Duration.ofMillis(fadeOut)
+                Duration.ofMillis(fadeIn / 20L * 1000L),
+                Duration.ofMillis(stay / 20L * 1000L),
+                Duration.ofMillis(fadeOut / 20L * 1000L)
         ));
     }
 

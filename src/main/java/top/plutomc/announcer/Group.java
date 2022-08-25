@@ -10,7 +10,7 @@ import java.util.Set;
 public final class Group {
     private final Set<Action> actions;
 
-    private String perm;
+    private String perm = null;
 
     public Group() {
         actions = new HashSet<>();

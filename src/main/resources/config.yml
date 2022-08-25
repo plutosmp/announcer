@@ -5,12 +5,6 @@ announcers:
       group1:
         perm: "*"
         actions:
-          title:
-            main: "<aqua>Main title"
-            sub: "<red>Sub title"
-            fadeIn: 0
-            stay: 70
-            fadeOut: 70
           message:
             content:
               - "<yellow>Message sample"
