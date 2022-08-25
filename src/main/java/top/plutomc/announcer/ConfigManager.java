@@ -1,7 +1,9 @@
 package top.plutomc.announcer;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import top.plutomc.announcer.actions.MessageAction;
+import top.plutomc.announcer.actions.SoundAction;
 import top.plutomc.announcer.actions.TitleAction;
 
 import java.util.HashSet;
@@ -64,6 +66,28 @@ public final class ConfigManager {
                             AnnouncerPlugin.instance().getConfig().getStringList("announcers." + key + ".messageGroups." + key1 + ".actions.message.content")
                     );
                     group.getActions().add(messageAction);
+                }
+                if (AnnouncerPlugin.instance().getConfig().contains("announcers." + key + ".messageGroups." + key1 + ".actions.sound")) {
+                    float volume;
+                    float pitch;
+
+                    if (!AnnouncerPlugin.instance().getConfig().contains("announcers." + key + ".messageGroups." + key1 + ".actions.sound.volume")) {
+                        volume = 1F;
+                    }else {
+                        volume = (float) AnnouncerPlugin.instance().getConfig().getDouble("announcers." + key + ".messageGroups." + key1 + ".actions.sound.volume");
+                    }
+                    if (!AnnouncerPlugin.instance().getConfig().contains("announcers." + key + ".messageGroups." + key1 + ".actions.sound.pitch")) {
+                        pitch = 0F;
+                    }else {
+                        pitch = (float) AnnouncerPlugin.instance().getConfig().getDouble("announcers." + key + ".messageGroups." + key1 + ".actions.sound.pitch");
+                    }
+
+                    SoundAction soundAction = new SoundAction(
+                            AnnouncerPlugin.instance().getConfig().getString("announcers." + key + ".messageGroups." + key1 + ".actions.sound.sound"),
+                            volume,
+                            pitch
+                    );
+                    group.getActions().add(soundAction);
                 }
                 announcer.getGroups().add(group);
             }
