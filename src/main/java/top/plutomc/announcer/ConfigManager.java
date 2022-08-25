@@ -30,7 +30,6 @@ public final class ConfigManager {
                     group.setPerm(perm);
                 }
                 if (AnnouncerPlugin.instance().getConfig().contains("announcers." + key + ".messageGroups." + key1 + ".actions.title")) {
-                    System.out.println(1);
                     long fadeIn;
                     long stay;
                     long fadeOut;
